@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_u1/models/product.dart';
+import 'package:flutter_application_u1/models/catalog.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsService extends ChangeNotifier {
