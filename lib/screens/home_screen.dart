@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'R E P R E S E N T',
+                'H O M E',
                 style: TextStyle(
                     fontSize: 25,
                     color: Colors.black,
@@ -23,7 +23,9 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "catalog");
+            },
             icon: const Icon(Icons.menu),
             color: Colors.black,
           ),

@@ -15,7 +15,7 @@ class SingleProduct extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'FW19',
+              'P R O D U C T',
               style: TextStyle(
                   fontSize: 25,
                   color: Colors.black,
@@ -25,7 +25,9 @@ class SingleProduct extends StatelessWidget {
           ],
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, "catalog");
+          },
           icon: const Icon(Icons.arrow_back),
           color: Colors.black,
         ),

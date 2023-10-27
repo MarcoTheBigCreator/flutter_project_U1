@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_u1/screens/product_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application_u1/services/service.dart';
 
 class CatalogScreen extends StatelessWidget {
-  const CatalogScreen({Key? key}) : super(key: key);
+  const CatalogScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final shoesService = Provider.of<ShoesService>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -14,7 +17,7 @@ class CatalogScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'FW19',
+              'C A T A L O G',
               style: TextStyle(
                   fontSize: 25,
                   color: Colors.black,
@@ -24,44 +27,68 @@ class CatalogScreen extends StatelessWidget {
           ],
         ),
         leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, "main");
+          },
+          icon: const Icon(Icons.menu),
           color: Colors.black,
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "product");
+            },
             icon: const Icon(Icons.square),
             color: Colors.black,
           ),
         ],
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: List.generate(
-          4,
-          (index) => GestureDetector(
-            // onTap: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => const ProductScreen()),
-            //   );
-            // },
-            child: Card(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Image.network(
-                      'https://via.placeholder.com/150x150',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Text('Product $index'),
-                ],
+    );
+  }
+}
+
+class CustomCard extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
+  final allData;
+
+  const CustomCard({Key? key, required this.allData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1, // Use a 1:1 aspect ratio for the image container
+              child: Image.network(
+                allData.pic,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  allData.name,
+                  style: const TextStyle(fontFamily: 'Impact'),
+                ),
+                Text(
+                  allData.price,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Impact',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
