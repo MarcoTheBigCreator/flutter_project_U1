@@ -41,12 +41,12 @@ class CatalogScreen extends StatelessWidget {
         children: List.generate(
           4,
           (index) => GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProductScreen()),
-              );
-            },
+            // onTap: () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => const ProductScreen()),
+            //   );
+            // },
             child: Card(
               child: Column(
                 children: [
