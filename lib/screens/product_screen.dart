@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_u1/widgets/circlewidget.dart';
 import 'package:flutter_application_u1/widgets/button.dart';
 
-class SingleProduct extends StatelessWidget {
-  const SingleProduct({Key? key}) : super(key: key);
+class Product extends StatelessWidget {
+  const Product({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

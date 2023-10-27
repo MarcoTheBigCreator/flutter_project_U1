@@ -11,11 +11,11 @@ class ProductsService extends ChangeNotifier {
   bool isLoading = true;
 
   ProductsService() {
-    this.loadProducts();
+    loadProducts();
   }
 
   Future<List<Product>> loadProducts() async {
-    this.isLoading = true;
+    isLoading = true;
     notifyListeners();
 
     final url = Uri.https(_baseUrl, 'products.json');
@@ -26,13 +26,11 @@ class ProductsService extends ChangeNotifier {
 
     productMap.forEach((key, value) {
       final product = Product.fromMap(value);
-      this.products.add(product);
+      products.add(product);
     });
 
-    this.isLoading = false;
+    isLoading = false;
     notifyListeners();
-
-    print(productMap);
 
     return products;
   }

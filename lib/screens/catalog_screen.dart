@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_u1/services/products_service.dart';
+import 'package:flutter_application_u1/screens/loading_screen.dart';
+import 'package:flutter_application_u1/widgets/product_card.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_u1/services/service.dart';
 
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final shoesService = Provider.of<ShoesService>(context);
+    final productsService = Provider.of<ProductsService>(context);
+
+    if (productsService.isLoading) {
+      return const LoadingScreen();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -19,10 +25,11 @@ class CatalogScreen extends StatelessWidget {
             Text(
               'C A T A L O G',
               style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic),
+                fontSize: 25,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),
@@ -38,57 +45,28 @@ class CatalogScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, "product");
             },
-            icon: const Icon(Icons.square),
+            icon: const Icon(Icons.shopping_bag_outlined),
             color: Colors.black,
           ),
         ],
       ),
-    );
-  }
-}
-
-class CustomCard extends StatelessWidget {
-  // ignore: prefer_typing_uninitialized_variables
-  final allData;
-
-  const CustomCard({Key? key, required this.allData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1, // Use a 1:1 aspect ratio for the image container
-              child: Image.network(
-                allData.pic,
-                fit: BoxFit.cover,
-              ),
-            ),
+      backgroundColor: Colors.white,
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Dos columnas
+          mainAxisSpacing: 16.0, // Espacio vertical entre tarjetas
+          crossAxisSpacing: 16.0, // Espacio horizontal entre tarjetas
+          childAspectRatio: 0.7, // Ajusta según tus necesidades
+        ),
+        padding: const EdgeInsets.all(
+            16.0), // Agrega márgenes alrededor de las tarjetas
+        itemBuilder: (BuildContext context, index) => GestureDetector(
+          child: ProductCard(
+            product: productsService.products[index],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  allData.name,
-                  style: const TextStyle(fontFamily: 'Impact'),
-                ),
-                Text(
-                  allData.price,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Impact',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          onTap: () => {},
+        ),
+        itemCount: productsService.products.length,
       ),
     );
   }

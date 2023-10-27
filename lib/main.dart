@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_u1/screens/product2_screen.dart';
+import 'package:flutter_application_u1/screens/catalog_screen.dart';
 import 'package:flutter_application_u1/services/products_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_u1/screens/home_screen.dart';
 import 'package:flutter_application_u1/screens/product_screen.dart';
-import 'package:flutter_application_u1/screens/catalog_screen.dart';
-import 'package:flutter_application_u1/services/service.dart';
 
 void main() {
   runApp(const AppState());
@@ -34,8 +32,8 @@ class MainApp extends StatelessWidget {
       initialRoute: "main",
       routes: {
         "main": (_) => const HomeScreen(),
-        "catalog": (_) => const ProductScreen(),
-        "product": (_) => const SingleProduct()
+        "catalog": (_) => const CatalogScreen(),
+        "product": (_) => const Product()
       },
     );
   }

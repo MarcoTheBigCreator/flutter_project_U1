@@ -8,54 +8,35 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 3,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
+    return Card(
+      elevation: 0,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 16 / 9, // Ajusta el aspect ratio según tus necesidades
+            aspectRatio: 1, // Use a 1:1 aspect ratio for the image container
             child: _BackgroundImage(product.pic),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product.name,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Center(
+                  // Centra los textos verticalmente
+                  child: Text(
+                    product.name,
+                    style: const TextStyle(
+                        fontFamily: 'Impact',
+                        fontSize: 19,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
-                SizedBox(height: 8),
-                Text(
-                  product.description ?? '',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  '\$${product.price.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFFEE100),
+                Center(
+                  // Centra los textos verticalmente
+                  child: Text(
+                    '\$${product.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal, fontSize: 16),
                   ),
                 ),
               ],
