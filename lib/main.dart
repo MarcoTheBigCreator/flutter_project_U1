@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_u1/screens/catalog_screen.dart';
+import 'package:flutter_application_u1/services/product_service.dart';
 import 'package:flutter_application_u1/services/products_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_u1/screens/home_screen.dart';
@@ -15,7 +16,14 @@ class AppState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ProductsService())],
+      providers: [
+        ChangeNotifierProvider<ProductsService>(
+          create: (_) => ProductsService(),
+        ),
+        ChangeNotifierProvider<ProductService>(
+          create: (_) => ProductService(),
+        ),
+      ],
       child: const MainApp(),
     );
   }

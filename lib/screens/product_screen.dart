@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_u1/widgets/circlewidget.dart';
 import 'package:flutter_application_u1/widgets/button.dart';
+import 'package:flutter_application_u1/services/product_service.dart';
+import 'package:flutter_application_u1/screens/loading_screen.dart';
+import 'package:provider/provider.dart';
 
 class Product extends StatelessWidget {
   const Product({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final productService = Provider.of<ProductService>(context);
+
+    if (productService.isLoading) {
+      return const LoadingScreen();
+    }
+
+    final product =
+        productService.data.isNotEmpty ? productService.data.first : null;
+
+    if (product == null) {
+      return const Center(child: Text('No products found.'));
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -15,12 +31,13 @@ class Product extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'P R O D U C T',
+              'PRODUCT',
               style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic),
+                fontSize: 25,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),
@@ -41,39 +58,106 @@ class Product extends StatelessWidget {
       ),
       body: Column(
         children: [
-          buildFullscreenContainer(context),
-          sneakersRows(),
-          blackButton(), // Add the black button
+          buildFullscreenContainer(context, product.pic),
+          sneakersRows(product.description),
+          blackButton(),
         ],
       ),
     );
   }
 
-  Image fullscreenImage() {
+  Image fullscreenImage(String imageUrl) {
     return Image.network(
-      'https://media.gq.com.mx/photos/616f066ac11890a7831a695d/1:1/w_1688,h_1688,c_limit/nike%20dia%20de%20muertos.jpg',
+      imageUrl,
       fit: BoxFit.cover,
     );
   }
 
-  Container buildFullscreenContainer(BuildContext context) {
+  Container buildFullscreenContainer(BuildContext context, String imageUrl) {
     return Container(
       height: 300,
       width: MediaQuery.of(context).size.width,
       color: Colors.blue,
-      child: fullscreenImage(),
+      child: fullscreenImage(imageUrl),
     );
   }
+}
 
-  Widget sizes() {
-    return SizedBox(
+Expanded description(String productDescription) {
+  return Expanded(
+      child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(1.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    "Color:",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: 'fightt3_',
+                    ),
+                  ),
+                ),
+                CircleWidget(Colors.black),
+                CircleWidget(Colors.deepPurple),
+                CircleWidget(Colors.green),
+              ],
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 20),
+      const Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        child: Text(
+          "Description",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontFamily: 'fightt3_',
+          ),
+        ),
+      ),
+      Expanded(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Text(
+                productDescription,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                  height: 2.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ],
+  ));
+}
+
+Widget sizes() {
+  return SizedBox(
       width: 50,
       child: Column(
         children: [
-          // First vertical section with ListWheelScrollView
           Expanded(
             child: ListWheelScrollView(
-              itemExtent: 60, // Adjust this value as needed
+              itemExtent: 60,
               useMagnifier: true,
               magnification: 1,
               children: List<Widget>.generate(30, (index) {
@@ -86,96 +170,20 @@ class Product extends StatelessWidget {
               }),
             ),
           ),
-          // Second vertical section
           Expanded(
-            flex: 0, // Adjust the flex value to make it larger
-            child: Container(
-                // Add your content for the second section here
-                ),
+            flex: 0,
+            child: Container(),
           ),
         ],
-      ),
-    );
-  }
+      ));
+}
 
-  Expanded description() {
-    return const Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(1.0),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Text(
-                        "Color:",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontFamily: 'fightt3_',
-                        ),
-                      ),
-                    ),
-                    CircleWidget(Colors.black),
-                    CircleWidget(Colors.deepPurple),
-                    CircleWidget(Colors.green),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-              height: 20), // Add space between the color section and size text
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
-            ),
-            child: Text(
-              "Description",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontFamily: 'fightt3_',
-              ),
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(20.0), // Add padding to the text
-                child: SingleChildScrollView(
-                  child: Text(
-                    '''Introducing the epitome of style and comfort in the world of footwear – our cutting-edge sneakers. Crafted with precision and innovation, our sneakers are a fusion of form and function, designed to elevate your everyday footwear experience.Immerse yourself in the ultimate combination of fashion-forward design and superior functionality. These sneakers are more than just shoes; they are a statement of individuality and a testament to modern craftsmanship. With their sleek and versatile silhouette, they seamlessly blend with any outfit, whether you're strolling through the city streets or hitting the gym for an intense workout.These sneakers boast a cushioned insole that pampers your feet with every step, ensuring all-day comfort and support. The durable outsole provides exceptional traction and stability, making them your ideal companion for any adventure. The breathable upper material allows for optimal airflow, keeping your feet cool and dry even during the most demanding activities.Elevate your footwear game with our sneakers – a true embodiment of style, comfort, and quality. Whether you're a trendsetter on the streets or an athlete in pursuit of excellence, these sneakers are the perfect choice to complement your unique lifestyle. Step into a world of unmatched performance and style, and experience the future of footwear.
-                    ''',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      height: 2.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget sneakersRows() {
-    return Expanded(
+Widget sneakersRows(String productDescription) {
+  return Expanded(
       child: Row(
-        children: [
-          sizes(),
-          description(),
-        ],
-      ),
-    );
-  }
+    children: [
+      sizes(),
+      description(productDescription),
+    ],
+  ));
 }
